@@ -1,34 +1,35 @@
 package application;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
+
+import entities.Pessoa;
 
 public class main {
-  public static void main(String[] args) {
-    String jsonFilePath = "src/data/dados.json";
-    String jsonContent = lerArquivoJson(jsonFilePath);
+    public static void main(String[] args) {
+        String jsonFilePath = "src/data/dados.json";
 
-    if (jsonContent != null) {
-      System.out.println("JSON carregado com sucesso!");
-      System.out.println(jsonContent);
-    } else {
-      System.out.println("Erro ao carregar o JSON");
+        try {
+            String jsonContent = new String(Files.readAllBytes(Paths.get(jsonFilePath)));
+
+            List<Pessoa> pessoas = new Gson().fromJson(jsonContent, new TypeToken<List<Pessoa>>(){}.getType());
+
+            System.out.println("\nLocaliza pessoa pelo ID:");
+            listarPessoaPorId(pessoas, 2); //id indicado no exemplo
+
+        } catch (IOException error) {
+            error.printStackTrace();
+        }
     }
-  }
 
-  public static String lerArquivoJson(String caminho) {
-    StringBuilder conteudo = new StringBuilder();
-    try (BufferedReader br = new BufferedReader(new FileReader(caminho))){
-      String linha;
-
-      while ((linha = br.readLine()) != null) {
-        conteudo.append(linha);        
-      }
-      return conteudo.toString();
-    } catch (IOException error) {
-      error.printStackTrace();
-      return null;
+    public static void listarPessoaPorId(List<Pessoa> pessoas, int id) {
+        pessoas.stream()
+                .filter(pessoa -> pessoa.getId() == id)
+                .forEach(pessoa -> System.out.println(pessoa.getNome() + " (ID: " + pessoa.getId() + ")"));
     }
-  }
 }
