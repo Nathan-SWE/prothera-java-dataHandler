@@ -1,5 +1,5 @@
 .vscode/
 .idea/
-lib/
 bin/
+out/
 *.iml
