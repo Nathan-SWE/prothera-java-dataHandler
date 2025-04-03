@@ -29,6 +29,10 @@ public class main {
             System.out.println("\nPessoas com idade superior a 50 anos:");
             listarPessoasComMaisDe50Anos(pessoas);
 
+            System.out.println("\nPessoas que não possuem CPF:");
+            listarPessoasSemCPF(pessoas);
+
+
 
         } catch (IOException error) {
             error.printStackTrace();
@@ -51,5 +55,11 @@ public class main {
         pessoas.stream()
                 .filter(pessoa -> pessoa.getIdade() > 50)
                 .forEach(pessoa -> System.out.printf("%s - %d anos\n", pessoa.getNome(), pessoa.getIdade()));
+    }
+
+    public static void listarPessoasSemCPF(List<Pessoa> pessoas) {
+        pessoas.stream()
+                .filter(pessoa -> pessoa.getDocumentos().stream().noneMatch(doc -> doc.getTipo().equalsIgnoreCase("CPF")))
+                .forEach(pessoa -> System.out.printf("%s (ID: %d)\n", pessoa.getNome(), pessoa.getId()));
     }
 }
