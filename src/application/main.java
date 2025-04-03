@@ -10,6 +10,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import entities.Pessoa;
+import entities.Documento;
 
 public class main {
     public static void main(String[] args) {
@@ -32,7 +33,8 @@ public class main {
             System.out.println("\nPessoas que não possuem CPF:");
             listarPessoasSemCPF(pessoas);
 
-
+            System.out.println("\nListagem de tipos de documentos:");
+            listarTiposDeDocumentos(pessoas);
 
         } catch (IOException error) {
             error.printStackTrace();
@@ -61,5 +63,13 @@ public class main {
         pessoas.stream()
                 .filter(pessoa -> pessoa.getDocumentos().stream().noneMatch(doc -> doc.getTipo().equalsIgnoreCase("CPF")))
                 .forEach(pessoa -> System.out.printf("%s (ID: %d)\n", pessoa.getNome(), pessoa.getId()));
+    }
+
+    public static void listarTiposDeDocumentos(List<Pessoa> pessoas) {
+        pessoas.stream()
+                .flatMap(pessoa -> pessoa.getDocumentos().stream())
+                .map(Documento::getTipo)
+                .distinct()
+                .forEach(System.out::println);
     }
 }
