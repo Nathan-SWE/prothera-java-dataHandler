@@ -26,6 +26,8 @@ public class main {
             System.out.println("\nListagem de pessoas em ordem crescente de idade:");
             listarPessoasPorIdadeCrescente(pessoas);
 
+            System.out.println("\nPessoas com idade superior a 50 anos:");
+            listarPessoasComMaisDe50Anos(pessoas);
 
 
         } catch (IOException error) {
@@ -42,6 +44,12 @@ public class main {
     public static void listarPessoasPorIdadeCrescente(List<Pessoa> pessoas) {
         pessoas.stream()
                 .sorted(Comparator.comparingInt(Pessoa::getIdade))
+                .forEach(pessoa -> System.out.printf("%s - %d anos\n", pessoa.getNome(), pessoa.getIdade()));
+    }
+
+    public static void listarPessoasComMaisDe50Anos(List<Pessoa> pessoas) {
+        pessoas.stream()
+                .filter(pessoa -> pessoa.getIdade() > 50)
                 .forEach(pessoa -> System.out.printf("%s - %d anos\n", pessoa.getNome(), pessoa.getIdade()));
     }
 }
