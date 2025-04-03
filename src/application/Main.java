@@ -44,7 +44,7 @@ public class Main {
     public static void listarPessoaPorId(List<Pessoa> pessoas, int id) {
         pessoas.stream()
                 .filter(pessoa -> pessoa.getId() == id)
-                .forEach(pessoa -> System.out.println(pessoa.getNome() + " (ID: " + pessoa.getId() + ")"));
+                .forEach(pessoa -> System.out.printf("%s (ID: %d)\n", pessoa.getNome(), pessoa.getId()));
     }
 
     public static void listarPessoasPorIdadeCrescente(List<Pessoa> pessoas) {
